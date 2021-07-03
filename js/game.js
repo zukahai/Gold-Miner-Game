@@ -95,7 +95,7 @@ class game {
         }
         if (drag && index == -1) {
             for (let i = 0; i < N; i++)
-                if (this.gg[i].alive && this.range(Xh, Yh, this.gg[i].x, this.gg[i].y) <= this.gg[i].size) {
+                if (this.gg[i].alive && this.range(Xh, Yh, this.gg[i].x, this.gg[i].y) <= this.gg[i].size()) {
                     ok = true;
                     index = i;
                     break;
@@ -103,7 +103,7 @@ class game {
         }
         if (index != -1) {
             this.gg[index].x = Xh;
-            this.gg[index].y = Yh + this.gg[index].size / 4;
+            this.gg[index].y = Yh + this.gg[index].height / 3;
             speedReturn = this.gg[index].speed;
         }
     }
@@ -117,7 +117,7 @@ class game {
             XXX = game_W / 2;
             YYY = game_H * 0.18;
             R = r = this.getWidth() * 2;
-            MaxLeng = this.range(XXX, YYY, game_W, game_H);
+            MaxLeng = this.range(XXX, YYY, game_W - 2 * this.getWidth(), game_H - 2 * this.getWidth());
             N = game_W * game_H / (16 * this.getWidth() * this.getWidth());
         }
     }
