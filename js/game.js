@@ -15,7 +15,7 @@ bg.src="images/background.png";
 var hook = new Image();
 hook.src="images/hook.png";
 
-let N = 15;
+let N = 10;
 
 class game {
     constructor() {
@@ -118,6 +118,7 @@ class game {
             YYY = game_H * 0.18;
             R = r = this.getWidth() * 2;
             MaxLeng = this.range(XXX, YYY, game_W, game_H);
+            N = game_W * game_H / (16 * this.getWidth() * this.getWidth());
         }
     }
 
