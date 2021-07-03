@@ -8,7 +8,7 @@ let drag = false;
 let d = false;
 let ok = false;
 let angle = 90;
-let ChAngle = -1;
+let ChAngle = -2.5;
 index = -1;
 var bg = new Image();
 bg.src="images/background.png";
@@ -73,7 +73,7 @@ class game {
         Yh = YYY + r * Math.sin(this.toRadius(angle));
         if (!drag) {
             angle += ChAngle;
-            if (angle >= 170 || angle <= 10)
+            if (angle >= 165 || angle <= 15)
                 ChAngle = -ChAngle;
         } else {
             if (r < MaxLeng && d && !ok)
