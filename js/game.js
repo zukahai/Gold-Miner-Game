@@ -1,13 +1,10 @@
 let game_W = 20;
 let game_H = 20;
 let XXX = 0, YYY = 0;
+let angle = 90;
+let ChAngle = -1;
 var bg = new Image();
 bg.src="images/background.jpg";
-
-
-var data = [[1, 2, 3],
-            [4, 5, 6],
-            [7, 8, 9]];
 
 class game {
     constructor() {
@@ -55,6 +52,9 @@ class game {
 
     update() {
         this.render();
+        angle += ChAngle;
+        if (angle >= 180 || angle <= 0)
+            ChAngle = -ChAngle;
     }
 
     render() {
@@ -72,7 +72,7 @@ class game {
         this.context.strokeStyle  = "#00FF00";
         this.context.lineWidth = Math.floor(this.getWidth() / 10);
         this.context.moveTo(XXX, YYY);
-        this.context.lineTo(100, 100);
+        this.context.lineTo(XXX + 100 * Math.cos(this.toRadius(angle)), YYY + 100 * Math.sin(this.toRadius(angle)));
         this.context.stroke();
     }
 
@@ -87,6 +87,10 @@ class game {
     getWidth() {
         var area = document.documentElement.clientWidth * document.documentElement.clientHeight;
         return Math.sqrt(area / 400);
+    }
+
+    toRadius(angle) {
+        return (angle / 180) * Math.PI;
     }
 }
 
