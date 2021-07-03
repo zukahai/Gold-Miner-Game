@@ -33,6 +33,7 @@ class game {
         this.gg = [];
         for (let i = 0; i < N; i++)
             this.gg[i] = new gold(this);
+        this.initGold();
         
         this.loop();
 
@@ -127,10 +128,14 @@ class game {
                 this.gg[i].draw();
 
         this.context.beginPath();
-        this.context.strokeStyle  = "#000000";
+        this.context.strokeStyle  = "#333333";
         this.context.lineWidth = Math.floor(this.getWidth() / 10);
         this.context.moveTo(XXX, YYY);
         this.context.lineTo(Xh, Yh);
+
+        this.context.stroke();
+        this.context.beginPath();
+        this.context.arc(XXX, YYY, 3, 0, 2 * Math.PI);
         this.context.stroke();
 
         this.context.drawImage(hook, Xh - this.getWidth() / 4, Yh - this.getWidth() / 8, this.getWidth() / 2, this.getWidth() / 2);
@@ -139,6 +144,20 @@ class game {
     clearScreen() {
         this.context.clearRect(0, 0, game_W, game_H);
         this.context.drawImage(bg, (bg.width - game_W * (bg.height / game_H)) / 2, 0, game_W * (bg.height / game_H), bg.height, 0, 0, game_W, game_H);
+    }
+
+    initGold() {
+        while (true) {
+            let check = true;
+            for (let i = 0; i < N - 1; i++)
+                for (let j = i + 1; j < N; j++)
+                    while (this.range(this.gg[i].x, this.gg[i].y, this.gg[j].x, this.gg[j].y) < 2 * this.getWidth()) {
+                        check = false;
+                        this.gg[j].randomXY();
+                    }
+            if (check)
+                    break;
+        }
     }
 
     getWidth() {

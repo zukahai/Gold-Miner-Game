@@ -28,6 +28,11 @@ class gold {
         }
     }
 
+    randomXY() {
+        this.x = 2 * this.game.getWidth() + Math.random() * (game_W - 4 * this.game.getWidth());
+        this.y = 2 * this.game.getWidth() + game_H / 3 + Math.random() * (2 * game_H / 3 - 4 * this.game.getWidth());
+    }
+
     draw() {
         this.game.context.drawImage(goldIm, this.x - this.size / 2, this.y - this.size / 4, this.size, this.size / 2);
     }
