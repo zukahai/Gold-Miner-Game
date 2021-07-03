@@ -24,6 +24,7 @@ class game {
         document.body.appendChild(this.canvas);
 
         this.render();
+        this.gg = new gold(this);
         
         this.loop();
 
@@ -90,6 +91,7 @@ class game {
 
     draw() {
         this.clearScreen();
+        this.gg.draw();
 
         this.context.beginPath();
         this.context.strokeStyle  = "#000000";
@@ -108,7 +110,7 @@ class game {
 
     getWidth() {
         var area = document.documentElement.clientWidth * document.documentElement.clientHeight;
-        return Math.sqrt(area / 400);
+        return Math.sqrt(area / 300);
     }
 
     toRadius(angle) {
