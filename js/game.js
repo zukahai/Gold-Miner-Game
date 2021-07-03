@@ -9,6 +9,7 @@ let d = false;
 let ok = false;
 let angle = 90;
 let ChAngle = -1;
+index = -1;
 var bg = new Image();
 bg.src="images/background.png";
 var hook = new Image();
@@ -56,6 +57,7 @@ class game {
             drag = true;
             d = true;
             speedReturn = this.getWidth() / 2;
+            index = -1;
         }
     }
 
@@ -84,19 +86,24 @@ class game {
                 r = R;
                 drag = false;
                 ok = false;
+                index = -1;
                 for (let i = 0; i < N; i++)
                 if (this.gg[i].alive && this.range(Xh, Yh, this.gg[i].x, this.gg[i].y) <= 2 * this.getWidth())
                     this.gg[i].alive = false;
             }
         }
-        if (drag) {
+        if (drag && index == -1) {
             for (let i = 0; i < N; i++)
                 if (this.gg[i].alive && this.range(Xh, Yh, this.gg[i].x, this.gg[i].y) <= this.gg[i].size) {
-                    this.gg[i].x = Xh;
-                    this.gg[i].y = Yh + this.gg[i].size / 4;
-                    speedReturn = this.gg[i].speed;
                     ok = true;
+                    index = i;
+                    break;
                 }
+        }
+        if (index != -1) {
+            this.gg[index].x = Xh;
+            this.gg[index].y = Yh + this.gg[index].size / 4;
+            speedReturn = this.gg[index].speed;
         }
     }
 
@@ -107,7 +114,7 @@ class game {
             game_W = this.canvas.width;
             game_H = this.canvas.height;
             XXX = game_W / 2;
-            YYY = game_H * 0.185;
+            YYY = game_H * 0.18;
             R = r = this.getWidth() * 2;
             MaxLeng = this.range(XXX, YYY, game_W, game_H);
         }
