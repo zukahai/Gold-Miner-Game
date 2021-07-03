@@ -1,15 +1,20 @@
 let game_W = 20;
 let game_H = 20;
-let XXX = 0, YYY = 0;
+let XXX = 0, YYY = 0, Xh = 0, Yh = 0;
+let MaxLeng = 0;
+let speedReturn = 0
 let R = 0, r = 0;
 let drag = false;
 let d = false;
+let ok = false;
 let angle = 90;
 let ChAngle = -1;
 var bg = new Image();
 bg.src="images/background.png";
 var hook = new Image();
 hook.src="images/hook.png";
+
+let N = 15;
 
 class game {
     constructor() {
@@ -24,7 +29,9 @@ class game {
         document.body.appendChild(this.canvas);
 
         this.render();
-        this.gg = new gold(this);
+        this.gg = [];
+        for (let i = 0; i < N; i++)
+            this.gg[i] = new gold(this);
         
         this.loop();
 
@@ -48,6 +55,7 @@ class game {
         if (!drag) {
             drag = true;
             d = true;
+            speedReturn = this.getWidth() / 2;
         }
     }
 
@@ -59,21 +67,36 @@ class game {
 
     update() {
         this.render();
+        Xh = XXX + r * Math.cos(this.toRadius(angle));
+        Yh = YYY + r * Math.sin(this.toRadius(angle));
         if (!drag) {
             angle += ChAngle;
-            if (angle >= 180 || angle <= 0)
+            if (angle >= 170 || angle <= 10)
                 ChAngle = -ChAngle;
         } else {
-            if (r < 10 * this.getWidth() && d)
+            if (r < MaxLeng && d && !ok)
                 r += this.getWidth() / 2;
             else {
                 d = false;
-                r -= this.getWidth() / 2;
+                r -= speedReturn;
             }
             if (r < R) {
                 r = R;
                 drag = false;
+                ok = false;
+                for (let i = 0; i < N; i++)
+                if (this.gg[i].alive && this.range(Xh, Yh, this.gg[i].x, this.gg[i].y) <= 2 * this.getWidth())
+                    this.gg[i].alive = false;
             }
+        }
+        if (drag) {
+            for (let i = 0; i < N; i++)
+                if (this.gg[i].alive && this.range(Xh, Yh, this.gg[i].x, this.gg[i].y) <= this.gg[i].size) {
+                    this.gg[i].x = Xh;
+                    this.gg[i].y = Yh + this.gg[i].size / 4;
+                    speedReturn = this.gg[i].speed;
+                    ok = true;
+                }
         }
     }
 
@@ -86,21 +109,24 @@ class game {
             XXX = game_W / 2;
             YYY = game_H * 0.185;
             R = r = this.getWidth() * 2;
+            MaxLeng = this.range(XXX, YYY, game_W, game_H);
         }
     }
 
     draw() {
         this.clearScreen();
-        this.gg.draw();
+        for (let i = 0; i < N; i++)
+            if (this.gg[i].alive)
+                this.gg[i].draw();
 
         this.context.beginPath();
         this.context.strokeStyle  = "#000000";
         this.context.lineWidth = Math.floor(this.getWidth() / 10);
         this.context.moveTo(XXX, YYY);
-        this.context.lineTo(XXX + r * Math.cos(this.toRadius(angle)), YYY + r * Math.sin(this.toRadius(angle)));
+        this.context.lineTo(Xh, Yh);
         this.context.stroke();
 
-        this.context.drawImage(hook, XXX + r * Math.cos(this.toRadius(angle)) - this.getWidth() / 4, YYY + r * Math.sin(this.toRadius(angle)) - this.getWidth() / 8, this.getWidth() / 2, this.getWidth() / 2);
+        this.context.drawImage(hook, Xh - this.getWidth() / 4, Yh - this.getWidth() / 8, this.getWidth() / 2, this.getWidth() / 2);
     }
 
     clearScreen() {
@@ -115,6 +141,10 @@ class game {
 
     toRadius(angle) {
         return (angle / 180) * Math.PI;
+    }
+
+    range(x1, y1, x2, y2) {
+        return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
     }
 }
 
