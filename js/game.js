@@ -8,6 +8,8 @@ let angle = 90;
 let ChAngle = -1;
 var bg = new Image();
 bg.src="images/background.png";
+var hook = new Image();
+hook.src="images/hook.png";
 
 class game {
     constructor() {
@@ -26,28 +28,26 @@ class game {
         this.loop();
 
         this.listenKeyboard();
-        this.listenTouch();
-    }
-
-    listenTouch() {
-        document.addEventListener("touchmove", evt => {
-            var x = evt.touches[0].pageX;
-            var y = evt.touches[0].pageY;
-        })
-
-        document.addEventListener("touchstart", evt => {
-            var x = evt.touches[0].pageX;
-            var y = evt.touches[0].pageY;
-        })
+        this.listenMouse();
     }
 
     listenKeyboard() {
         document.addEventListener("keydown", key => {
-            if (!drag) {
-                drag = true;
-                d = true;
-            }
+            this.solve();
         })
+    }
+
+    listenMouse() {
+        document.addEventListener("mousedown", evt => {
+            this.solve();
+        })
+    }
+
+    solve() {
+        if (!drag) {
+            drag = true;
+            d = true;
+        }
     }
 
     loop() {
@@ -64,10 +64,10 @@ class game {
                 ChAngle = -ChAngle;
         } else {
             if (r < 10 * this.getWidth() && d)
-                r += 10;
+                r += this.getWidth() / 2;
             else {
                 d = false;
-                r -= 10;
+                r -= this.getWidth() / 2;
             }
             if (r < R) {
                 r = R;
@@ -97,6 +97,8 @@ class game {
         this.context.moveTo(XXX, YYY);
         this.context.lineTo(XXX + r * Math.cos(this.toRadius(angle)), YYY + r * Math.sin(this.toRadius(angle)));
         this.context.stroke();
+
+        this.context.drawImage(hook, XXX + r * Math.cos(this.toRadius(angle)) - this.getWidth() / 4, YYY + r * Math.sin(this.toRadius(angle)) - this.getWidth() / 8, this.getWidth() / 2, this.getWidth() / 2);
     }
 
     clearScreen() {
