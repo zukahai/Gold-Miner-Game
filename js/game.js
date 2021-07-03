@@ -1,5 +1,6 @@
 let game_W = 20;
 let game_H = 20;
+let XXX = 0, YYY = 0;
 var bg = new Image();
 bg.src="images/background.jpg";
 
@@ -61,10 +62,18 @@ class game {
         this.canvas.height = document.documentElement.clientHeight;
         game_W = this.canvas.width;
         game_H = this.canvas.height;
+        XXX = game_W / 2;
     }
 
     draw() {
         this.clearScreen();
+
+        this.context.beginPath();
+        this.context.strokeStyle  = "#00FF00";
+        this.context.lineWidth = Math.floor(this.getWidth() / 10);
+        this.context.moveTo(XXX, YYY);
+        this.context.lineTo(100, 100);
+        this.context.stroke();
     }
 
     clearScreen() {
@@ -73,6 +82,11 @@ class game {
             this.context.drawImage(bg, 0, (bg.height - game_H * (bg.width / game_W)) / 2, bg.width, game_H * (bg.width / game_W), 0, 0, game_W, game_H);
         else
             this.context.drawImage(bg, (bg.width - game_W * (bg.height / game_H)) / 2, 0, game_W * (bg.height / game_H), bg.height, 0, 0, game_W, game_H);
+    }
+
+    getWidth() {
+        var area = document.documentElement.clientWidth * document.documentElement.clientHeight;
+        return Math.sqrt(area / 400);
     }
 }
 
