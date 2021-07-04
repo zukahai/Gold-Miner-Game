@@ -157,11 +157,12 @@ class game {
             game_H = this.canvas.height;
             XXX = game_W / 2;
             YYY = game_H * 0.18;
-            R = r = this.getWidth() * 2;
+            R = this.getWidth() * 2;
+            if (!drag)
+                r = R;
             MaxLeng = this.range(XXX, YYY, game_W - 2 * this.getWidth(), game_H - 2 * this.getWidth());
-            N = game_W * game_H / (20 * this.getWidth() * this.getWidth());
-            if (this.gg != null && this.gg.length != N)
-                this.initGold();
+            if (N < 0)
+                N = game_W * game_H / (20 * this.getWidth() * this.getWidth());
         }
     }
 
