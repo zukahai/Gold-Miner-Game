@@ -32,10 +32,10 @@ clockIM.src="images/clock.png";
 let N = -10;
 
 class game {
-    constructor(score) {
+    constructor() {
         this.canvas = null;
         this.context = null;
-        this.score = score;
+        this.score = 0;
         this.init();
     }
 
@@ -267,4 +267,4 @@ class game {
     }
 }
 
-new game(0);
+new game();
