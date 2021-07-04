@@ -10,10 +10,24 @@ let ok = false;
 let angle = 90;
 let ChAngle = -1;
 index = -1;
+level = -1;
+time = 60;
+tager = 0;
+timeH = 0;
+vlH = 0;
 var bg = new Image();
 bg.src="images/background.png";
 var hook = new Image();
 hook.src="images/hook.png";
+var targetIM = new Image();
+targetIM.src="images/target.png";
+var dolarIM = new Image();
+dolarIM.src="images/dolar.png";
+var levelIM = new Image();
+levelIM.src="images/level.png";
+var clockIM = new Image();
+clockIM.src="images/clock.png";
+
 
 let N = 10;
 
@@ -40,8 +54,18 @@ class game {
     }
 
     newGold() {
+        Xh = XXX;
+        Yh = YYY;
+        r = R;
+        drag = false;
+        timeH = -1;
+        vlH = 0;
+        time = 60;
+        level ++;
+        tager = (level + 1) * 1000 + level * level * 120;
         for (let i = 0; i < N; i++)
             this.gg[i] = new gold(this);
+        this.initGold();
     }
 
     listenKeyboard() {
@@ -68,13 +92,22 @@ class game {
     loop() {
         this.update();
         this.draw();
-        setTimeout(() => this.loop(), 10);
-        if (this.checkWin())
-            this.newGold();
+        if (time > 0 || this.score > tager)
+            setTimeout(() => this.loop(), 10);
+        if (time <= 0) {
+            if (this.score >= tager)
+                this.newGold();
+            else {
+                window.alert("You lose!" + "\n" + "Your Score: " + this.score);
+                location.reload();
+            }
+        }
+            
     }
 
     update() {
         this.render();
+        time -= 0.01;
         Xh = XXX + r * Math.cos(this.toRadian(angle));
         Yh = YYY + r * Math.sin(this.toRadian(angle));
         if (!drag) {
@@ -97,6 +130,8 @@ class game {
                 if (this.gg[i].alive && this.range(Xh, Yh, this.gg[i].x, this.gg[i].y) <= 2 * this.getWidth()) {
                     this.gg[i].alive = false;
                     this.score += this.gg[i].score;
+                    timeH = time - 0.7;
+                    vlH = this.gg[i].score;
                 }
             }
         }
@@ -125,8 +160,8 @@ class game {
             YYY = game_H * 0.18;
             R = r = this.getWidth() * 2;
             MaxLeng = this.range(XXX, YYY, game_W - 2 * this.getWidth(), game_H - 2 * this.getWidth());
-            // N = game_W * game_H / (20 * this.getWidth() * this.getWidth());
-            N = 1;
+            N = game_W * game_H / (20 * this.getWidth() * this.getWidth());
+            // N = 1;
         }
     }
 
@@ -157,9 +192,32 @@ class game {
     }
 
     drawText() {
+        this.context.drawImage(dolarIM, this.getWidth() / 2, this.getWidth() / 2, this.getWidth(), this.getWidth());
         this.context.fillStyle = "red";
-        this.context.font = this.getWidth() / 1.5 + 'px Stencil';
-        this.context.fillText("Score: " + this.score, this.getWidth(), this.getWidth());
+        if (this.score > tager)
+            this.context.fillStyle = "green";
+        this.context.font = this.getWidth() + 'px Stencil';
+        this.context.fillText(this.score, this.getWidth() * 1.5, this.getWidth() * 1.35);
+
+        this.context.drawImage(targetIM, this.getWidth() / 2, this.getWidth() / 2 + this.getWidth(), this.getWidth(), this.getWidth());
+        this.context.fillStyle = "#3300FF";
+        this.context.font = this.getWidth() + 'px Stencil';
+        this.context.fillText(tager, this.getWidth() * 1.5, this.getWidth() * 2.35);
+
+        this.context.drawImage(levelIM, game_W - 3 * this.getWidth(), this.getWidth() / 2, this.getWidth(), this.getWidth());
+        this.context.fillStyle = "#330000";
+        this.context.font = this.getWidth() + 'px Stencil';
+        this.context.fillText(level + 1, game_W - 2 * this.getWidth(), this.getWidth() * 1.35);
+
+        this.context.drawImage(clockIM, game_W - 3 * this.getWidth(), this.getWidth() / 2 + this.getWidth(), this.getWidth(), this.getWidth());
+        this.context.fillStyle = "#000022";
+        this.context.font = this.getWidth() + 'px Stencil';
+        this.context.fillText(Math.floor(time), game_W - 2 * this.getWidth(), this.getWidth() * 2.35);
+
+        if (Math.abs(timeH - time) <= 0.7) {
+            this.context.fillStyle = "red";
+            this.context.fillText("+" + vlH, XXX, YYY * 0.8);
+        }
     }
 
     clearScreen() {
