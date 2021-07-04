@@ -8,7 +8,7 @@ let drag = false;
 let d = false;
 let ok = false;
 let angle = 90;
-let ChAngle = -2.5;
+let ChAngle = -1;
 index = -1;
 var bg = new Image();
 bg.src="images/background.png";
@@ -70,8 +70,8 @@ class game {
 
     update() {
         this.render();
-        Xh = XXX + r * Math.cos(this.toRadius(angle));
-        Yh = YYY + r * Math.sin(this.toRadius(angle));
+        Xh = XXX + r * Math.cos(this.toRadian(angle));
+        Yh = YYY + r * Math.sin(this.toRadian(angle));
         if (!drag) {
             angle += ChAngle;
             if (angle >= 165 || angle <= 15)
@@ -139,7 +139,11 @@ class game {
         this.context.arc(XXX, YYY, 3, 0, 2 * Math.PI);
         this.context.stroke();
 
-        this.context.drawImage(hook, Xh - this.getWidth() / 4, Yh - this.getWidth() / 8, this.getWidth() / 2, this.getWidth() / 2);
+        this.context.save();
+        this.context.translate(Xh, Yh);
+        this.context.rotate(this.toRadian(angle - 90));
+        this.context.drawImage(hook, - this.getWidth() / 4,- this.getWidth() / 8, this.getWidth() / 2, this.getWidth() / 2);
+        this.context.restore();
     }
 
     clearScreen() {
@@ -166,7 +170,7 @@ class game {
         return Math.sqrt(area / 300);
     }
 
-    toRadius(angle) {
+    toRadian(angle) {
         return (angle / 180) * Math.PI;
     }
 

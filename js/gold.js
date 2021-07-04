@@ -69,6 +69,7 @@ class gold {
     }
 
     draw() {
+        // this.game.rotate(0);
         this.game.context.drawImage(this.IM, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
     }
 
