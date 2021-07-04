@@ -94,8 +94,8 @@ class game {
         this.draw();
         if (time > 0 || this.score > tager)
             setTimeout(() => this.loop(), 10);
-        if (time <= 0) {
-            if (this.score >= tager)
+        if (time <= 0 || this.checkWin()) {
+            if (this.score >= tager || this.checkWin()) 
                 this.newGold();
             else {
                 window.alert("You lose!" + "\n" + "Your Score: " + this.score);
@@ -161,7 +161,6 @@ class game {
             R = r = this.getWidth() * 2;
             MaxLeng = this.range(XXX, YYY, game_W - 2 * this.getWidth(), game_H - 2 * this.getWidth());
             N = game_W * game_H / (20 * this.getWidth() * this.getWidth());
-            // N = 1;
         }
     }
 
