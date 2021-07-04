@@ -22,36 +22,42 @@ class gold {
                 this.width = this.game.getWidth();
                 this.height = this.game.getWidth() / 2;
                 this.IM = goldIm;
+                this.score = 50;
                 break;
             case 1:
                 this.speed = this.game.getWidth() / 7;
                 this.width = this.game.getWidth();
                 this.height = this.game.getWidth() / 2;
                 this.IM = goldIm;
+                this.score = 100;
                 break;
             case 2:
-                this.speed = this.game.getWidth() / 10;
-                this.width = 1.5 * this.game.getWidth();
-                this.height = 1.5 * this.game.getWidth() / 2;
+                this.speed = this.game.getWidth() / 15;
+                this.width = 2.5 * this.game.getWidth();
+                this.height = 2.5 * this.game.getWidth() / 2;
                 this.IM = goldIm;
+                this.score = 500;
                 break;
             case 3:
-                this.speed = this.game.getWidth() / 7;
+                this.speed = this.game.getWidth() / 12;
                 this.width = 1.5 * this.game.getWidth();
                 this.height = 1.5 * this.game.getWidth();
                 this.IM = rockIm;
+                this.score = 20;
                 break;
             case 4:
-                this.speed = this.game.getWidth() / 10;
+                this.speed = this.game.getWidth() / 18;
                 this.width = 1.5 * this.game.getWidth();
                 this.height = 1.5 * this.game.getWidth();
                 this.IM = rockIm;
+                this.score = 50;
                 break;
             case 5:
-                this.speed = this.game.getWidth() / 15;
+                this.speed = this.game.getWidth() / 30;
                 this.width = 2 * this.game.getWidth();
                 this.height = 2 * this.game.getWidth();
                 this.IM = rockIm;
+                this.score = 80;
                 break;
             case 6:
             case 7:
@@ -59,6 +65,7 @@ class gold {
                 this.width = this.game.getWidth() / 2;
                 this.height = this.game.getWidth() / 2.5;
                 this.IM = diamondIM;
+                this.score = 600;
                 break;
         }
     }

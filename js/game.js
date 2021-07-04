@@ -18,9 +18,10 @@ hook.src="images/hook.png";
 let N = 10;
 
 class game {
-    constructor() {
+    constructor(score) {
         this.canvas = null;
         this.context = null;
+        this.score = score;
         this.init();
     }
 
@@ -31,14 +32,16 @@ class game {
 
         this.render();
         this.gg = [];
-        for (let i = 0; i < N; i++)
-            this.gg[i] = new gold(this);
+        this.newGold();
         this.initGold();
-        
         this.loop();
-
         this.listenKeyboard();
         this.listenMouse();
+    }
+
+    newGold() {
+        for (let i = 0; i < N; i++)
+            this.gg[i] = new gold(this);
     }
 
     listenKeyboard() {
@@ -66,6 +69,8 @@ class game {
         this.update();
         this.draw();
         setTimeout(() => this.loop(), 10);
+        if (this.checkWin())
+            this.newGold();
     }
 
     update() {
@@ -89,8 +94,10 @@ class game {
                 ok = false;
                 index = -1;
                 for (let i = 0; i < N; i++)
-                if (this.gg[i].alive && this.range(Xh, Yh, this.gg[i].x, this.gg[i].y) <= 2 * this.getWidth())
+                if (this.gg[i].alive && this.range(Xh, Yh, this.gg[i].x, this.gg[i].y) <= 2 * this.getWidth()) {
                     this.gg[i].alive = false;
+                    this.score += this.gg[i].score;
+                }
             }
         }
         if (drag && index == -1) {
@@ -118,7 +125,8 @@ class game {
             YYY = game_H * 0.18;
             R = r = this.getWidth() * 2;
             MaxLeng = this.range(XXX, YYY, game_W - 2 * this.getWidth(), game_H - 2 * this.getWidth());
-            N = game_W * game_H / (20 * this.getWidth() * this.getWidth());
+            // N = game_W * game_H / (20 * this.getWidth() * this.getWidth());
+            N = 1;
         }
     }
 
@@ -144,11 +152,27 @@ class game {
         this.context.rotate(this.toRadian(angle - 90));
         this.context.drawImage(hook, - this.getWidth() / 4,- this.getWidth() / 8, this.getWidth() / 2, this.getWidth() / 2);
         this.context.restore();
+
+        this.drawText();
+    }
+
+    drawText() {
+        this.context.fillStyle = "red";
+        this.context.font = this.getWidth() / 1.5 + 'px Stencil';
+        this.context.fillText("Score: " + this.score, this.getWidth(), this.getWidth());
     }
 
     clearScreen() {
         this.context.clearRect(0, 0, game_W, game_H);
         this.context.drawImage(bg, (bg.width - game_W * (bg.height / game_H)) / 2, 0, game_W * (bg.height / game_H), bg.height, 0, 0, game_W, game_H);
+    }
+
+    checkWin() {
+        let check = true;
+        for (let i = 0; i < N; i++)
+            if (this.gg[i].alive == true)
+                check = false;
+        return check;
     }
 
     initGold() {
@@ -179,4 +203,4 @@ class game {
     }
 }
 
-var g = new game();
+new game(0);
