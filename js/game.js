@@ -118,7 +118,7 @@ class game {
             YYY = game_H * 0.18;
             R = r = this.getWidth() * 2;
             MaxLeng = this.range(XXX, YYY, game_W - 2 * this.getWidth(), game_H - 2 * this.getWidth());
-            N = game_W * game_H / (16 * this.getWidth() * this.getWidth());
+            N = game_W * game_H / (20 * this.getWidth() * this.getWidth());
         }
     }
 
