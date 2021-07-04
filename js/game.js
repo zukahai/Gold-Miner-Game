@@ -8,7 +8,7 @@ let drag = false;
 let d = false;
 let ok = false;
 let angle = 90;
-let ChAngle = -2.5;
+let ChAngle = -1;
 index = -1;
 var bg = new Image();
 bg.src="images/background.png";
@@ -65,7 +65,7 @@ class game {
     loop() {
         this.update();
         this.draw();
-        setTimeout(() => this.loop(), 30);
+        setTimeout(() => this.loop(), 10);
     }
 
     update() {
@@ -78,10 +78,10 @@ class game {
                 ChAngle = -ChAngle;
         } else {
             if (r < MaxLeng && d && !ok)
-                r += this.getWidth() / 2;
+                r += this.getWidth() / 5;
             else {
                 d = false;
-                r -= speedReturn;
+                r -= speedReturn / 2.5;
             }
             if (r < R) {
                 r = R;
