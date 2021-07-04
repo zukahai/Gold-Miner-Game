@@ -54,6 +54,8 @@ class game {
     }
 
     newGold() {
+        ok = false;
+        index = -1;
         Xh = XXX;
         Yh = YYY;
         r = R;
