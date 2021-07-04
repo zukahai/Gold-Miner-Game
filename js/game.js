@@ -29,7 +29,7 @@ var clockIM = new Image();
 clockIM.src="images/clock.png";
 
 
-let N = 10;
+let N = -10;
 
 class game {
     constructor(score) {
@@ -45,7 +45,6 @@ class game {
         document.body.appendChild(this.canvas);
 
         this.render();
-        this.gg = [];
         this.newGold();
         this.initGold();
         this.loop();
@@ -65,8 +64,6 @@ class game {
         time = 60;
         level ++;
         tager = (level + 1) * 1000 + level * level * 120;
-        for (let i = 0; i < N; i++)
-            this.gg[i] = new gold(this);
         this.initGold();
     }
 
@@ -163,14 +160,18 @@ class game {
             R = r = this.getWidth() * 2;
             MaxLeng = this.range(XXX, YYY, game_W - 2 * this.getWidth(), game_H - 2 * this.getWidth());
             N = game_W * game_H / (20 * this.getWidth() * this.getWidth());
+            if (this.gg != null && this.gg.length != N)
+                this.initGold();
         }
     }
 
     draw() {
         this.clearScreen();
         for (let i = 0; i < N; i++)
-            if (this.gg[i].alive)
+            if (this.gg[i].alive) {
+                this.gg[i].update();
                 this.gg[i].draw();
+            }
 
         this.context.beginPath();
         this.context.strokeStyle  = "#333333";
@@ -235,6 +236,9 @@ class game {
     }
 
     initGold() {
+        this.gg = [];
+        for (let i = 0; i < N; i++)
+            this.gg[i] = new gold(this);
         while (true) {
             let check = true;
             for (let i = 0; i < N - 1; i++)

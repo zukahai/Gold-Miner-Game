@@ -16,6 +16,10 @@ class gold {
         this.x = 2 * this.game.getWidth() + Math.random() * (game_W - 4 * this.game.getWidth());
         this.y = 2 * this.game.getWidth() + game_H / 3 + Math.random() * (2 * game_H / 3 - 4 * this.game.getWidth());
         this.alive = true;
+        this.update();
+    }
+
+    update() {
         switch (this.type) {
             case 0:
                 this.speed = this.game.getWidth() / 5;
