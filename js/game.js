@@ -175,7 +175,7 @@ class game {
             }
 
         this.context.beginPath();
-        this.context.strokeStyle  = "#333333";
+        this.context.strokeStyle  = "#FF0000";
         this.context.lineWidth = Math.floor(this.getWidth() / 10);
         this.context.moveTo(XXX, YYY);
         this.context.lineTo(Xh, Yh);
@@ -198,22 +198,22 @@ class game {
         this.context.drawImage(dolarIM, this.getWidth() / 2, this.getWidth() / 2, this.getWidth(), this.getWidth());
         this.context.fillStyle = "red";
         if (this.score > tager)
-            this.context.fillStyle = "green";
+            this.context.fillStyle = "#FF6600";
         this.context.font = this.getWidth() + 'px Stencil';
         this.context.fillText(this.score, this.getWidth() * 1.5, this.getWidth() * 1.35);
 
         this.context.drawImage(targetIM, this.getWidth() / 2, this.getWidth() / 2 + this.getWidth(), this.getWidth(), this.getWidth());
-        this.context.fillStyle = "#3300FF";
+        this.context.fillStyle = "#FF6600";
         this.context.font = this.getWidth() + 'px Stencil';
         this.context.fillText(tager, this.getWidth() * 1.5, this.getWidth() * 2.35);
 
         this.context.drawImage(levelIM, game_W - 3 * this.getWidth(), this.getWidth() / 2, this.getWidth(), this.getWidth());
-        this.context.fillStyle = "#330000";
+        this.context.fillStyle = "#FFFFCC";
         this.context.font = this.getWidth() + 'px Stencil';
         this.context.fillText(level + 1, game_W - 2 * this.getWidth(), this.getWidth() * 1.35);
 
         this.context.drawImage(clockIM, game_W - 3 * this.getWidth(), this.getWidth() / 2 + this.getWidth(), this.getWidth(), this.getWidth());
-        this.context.fillStyle = "#000022";
+        this.context.fillStyle = "#FF00FF";
         this.context.font = this.getWidth() + 'px Stencil';
         this.context.fillText(Math.floor(time), game_W - 2 * this.getWidth(), this.getWidth() * 2.35);
 
